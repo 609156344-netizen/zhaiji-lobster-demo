@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+
+[context.production]
+  [[headers]]
+    for = "/*"
+    [headers.values]
+      X-Frame-Options = "DENY"
+      X-XSS-Protection = "1; mode=block"
+      X-Content-Type-Options = "nosniff"
+
+# 密码保护配置 - Netlify Pro 版本功能
+# 如果你使用的是 Netlify Free 版本，需要升级到 Pro 才能使用密码保护
+# 免费版本建议使用 JS 密码验证方案

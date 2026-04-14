@@ -31,90 +31,6 @@
 </head>
 <body class="text-slate-800 font-sans selection:bg-red-100 selection:text-red-900">
   
-  <!-- 密码验证遮罩层 -->
-  <div id="password-overlay" class="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 max-w-md w-full mx-4 text-center transform transition-all">
-      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i class="fa-solid fa-lock text-red-600 text-3xl"></i>
-      </div>
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">翟记龙虾</h2>
-      <p class="text-slate-500 mb-6">请输入访问密码查看招商演示</p>
-      <div class="relative mb-6">
-        <input 
-          type="password" 
-          id="password-input" 
-          class="w-full px-5 py-4 border-2 border-slate-200 rounded-2xl text-lg focus:outline-none focus:border-red-500 transition-colors text-center"
-          placeholder="请输入密码"
-          onkeypress="if(event.key==='Enter')checkPassword()"
-        >
-        <button onclick="togglePassword()" id="toggle-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-          <i class="fa-solid fa-eye text-xl"></i>
-        </button>
-      </div>
-      <p id="password-error" class="text-red-500 text-sm mb-4 hidden">
-        <i class="fa-solid fa-circle-exclamation mr-1"></i>密码错误，请重试
-      </p>
-      <button onclick="checkPassword()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-2xl text-lg transition-all active:scale-[0.98]">
-        <i class="fa-solid fa-arrow-right mr-2"></i>确认访问
-      </button>
-    </div>
-  </div>
-
-  <script>
-    // ==========================================
-    // 密码验证配置
-    // ==========================================
-    const ACCESS_PASSWORD = 'zhaiji2026'; // 修改此密码为你的专属密码
-
-    function checkPassword() {
-      const input = document.getElementById('password-input').value;
-      const overlay = document.getElementById('password-overlay');
-      const error = document.getElementById('password-error');
-      
-      if (input === ACCESS_PASSWORD) {
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, 300);
-        // 初始化幻灯片
-        renderSlide();
-      } else {
-        error.classList.remove('hidden');
-        document.getElementById('password-input').classList.add('border-red-500', 'animate-shake');
-        setTimeout(() => {
-          document.getElementById('password-input').classList.remove('border-red-500', 'animate-shake');
-        }, 500);
-      }
-    }
-
-    function togglePassword() {
-      const input = document.getElementById('password-input');
-      const btn = document.getElementById('toggle-btn');
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.innerHTML = '<i class="fa-solid fa-eye-slash text-xl"></i>';
-      } else {
-        input.type = 'password';
-        btn.innerHTML = '<i class="fa-solid fa-eye text-xl"></i>';
-      }
-    }
-
-    // 添加抖动动画样式
-    document.head.insertAdjacentHTML('beforeend', `
-      <style>
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-10px); }
-          75% { transform: translateX(10px); }
-        }
-        .animate-shake {
-          animation: shake 0.3s ease-in-out;
-        }
-      </style>
-    `);
-  </script>
-
   <div class="flex flex-col h-screen w-full overflow-hidden relative">
     
     <!-- 顶部进度条 -->
@@ -730,7 +646,8 @@
       changeSlide(index);
     }
 
-    // 注意：renderSlide() 会在密码验证通过后自动调用
+    // 初始化渲染
+    renderSlide();
 
   </script>
 </body>

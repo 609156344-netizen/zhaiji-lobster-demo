@@ -3,9 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>翟记龙虾招商演示</title>
   
   <!-- 引入 Tailwind CSS (仅处理样式) -->
@@ -30,111 +27,31 @@
       overflow: hidden;
       background-color: #f8fafc;
     }
+    /* 测算沙盘的自定义滑块样式 */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+      border: 4px solid #fff;
+    }
+    input[type=range]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+      border: 4px solid #fff;
+    }
   </style>
 </head>
 <body class="text-slate-800 font-sans selection:bg-red-100 selection:text-red-900">
   
-  <!-- 密码验证遮罩层 -->
-  <div id="password-overlay" class="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 max-w-md w-full mx-4 text-center transform transition-all">
-      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i class="fa-solid fa-lock text-red-600 text-3xl"></i>
-      </div>
-      <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">翟记龙虾</h2>
-      <p class="text-slate-500 mb-6">请输入访问密码查看招商演示</p>
-      <div class="relative mb-6">
-        <input 
-          type="password" 
-          id="password-input" 
-          class="w-full px-5 py-4 border-2 border-slate-200 rounded-2xl text-lg focus:outline-none focus:border-red-500 transition-colors text-center"
-          placeholder="请输入密码"
-          onkeypress="if(event.key==='Enter')checkPassword()"
-        >
-        <button onclick="togglePassword()" id="toggle-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
-          <i class="fa-solid fa-eye text-xl"></i>
-        </button>
-      </div>
-      <p id="password-error" class="text-red-500 text-sm mb-4 hidden">
-        <i class="fa-solid fa-circle-exclamation mr-1"></i>密码错误，请重试
-      </p>
-      <button onclick="checkPassword()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 rounded-2xl text-lg transition-all active:scale-[0.98]">
-        <i class="fa-solid fa-arrow-right mr-2"></i>确认访问
-      </button>
-    </div>
-  </div>
-
-  <script>
-    // ==========================================
-    // 密码验证配置
-    // ==========================================
-    const ACCESS_PASSWORD = 'zhaiji2026'; // 修改此密码为你的专属密码
-
-    // 检查是否已验证
-    function checkVerification() {
-      const isVerified = sessionStorage.getItem('zhaiji_verified');
-      if (isVerified === 'true') {
-        document.getElementById('password-overlay').style.display = 'none';
-        renderSlide();
-        return true;
-      }
-      return false;
-    }
-
-    function checkPassword() {
-      const input = document.getElementById('password-input').value;
-      const overlay = document.getElementById('password-overlay');
-      const error = document.getElementById('password-error');
-      
-      if (input === ACCESS_PASSWORD) {
-        sessionStorage.setItem('zhaiji_verified', 'true');
-        overlay.style.opacity = '0';
-        overlay.style.pointerEvents = 'none';
-        setTimeout(() => {
-          overlay.style.display = 'none';
-        }, 300);
-        // 初始化幻灯片
-        renderSlide();
-      } else {
-        error.classList.remove('hidden');
-        document.getElementById('password-input').classList.add('border-red-500', 'animate-shake');
-        setTimeout(() => {
-          document.getElementById('password-input').classList.remove('border-red-500', 'animate-shake');
-        }, 500);
-      }
-    }
-
-    function togglePassword() {
-      const input = document.getElementById('password-input');
-      const btn = document.getElementById('toggle-btn');
-      if (input.type === 'password') {
-        input.type = 'text';
-        btn.innerHTML = '<i class="fa-solid fa-eye-slash text-xl"></i>';
-      } else {
-        input.type = 'password';
-        btn.innerHTML = '<i class="fa-solid fa-eye text-xl"></i>';
-      }
-    }
-
-    // 添加抖动动画样式
-    document.head.insertAdjacentHTML('beforeend', `
-      <style>
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-10px); }
-          75% { transform: translateX(10px); }
-        }
-        .animate-shake {
-          animation: shake 0.3s ease-in-out;
-        }
-      </style>
-    `);
-
-    // 页面加载时检查是否已验证
-    window.addEventListener('DOMContentLoaded', function() {
-      checkVerification();
-    });
-  </script>
-
   <div class="flex flex-col h-screen w-full overflow-hidden relative">
     
     <!-- 顶部进度条 -->
@@ -207,7 +124,7 @@
           items: [
             '连锁效应：品牌统一扶持，托管式运营省心省力。',
             '独家成本优化：同等条件下，我们门店配送加运营抽点得到大幅优化，拉开同行利润差。',
-            '高利润模型：食材/推广等固定成本下，客单价高、扣点低、补贴高，平台产品毛利可达40%左右。'
+            '高利润模型：食材/房租等固定成本下，客单价高、扣点低、补贴高，平台产品毛利可达40%左右。'
           ]
         }
       },
@@ -231,7 +148,7 @@
         subtitle: '华东区头部连锁专属特权，政策远优于个体户',
         items: [
           { iconClass: 'fa-solid fa-percent', title: '品牌地位', text: '翟记龙虾品牌为华东区头部宵夜外卖连锁品牌之一，受平台高度重视' },
-          { iconClass: 'fa-solid fa-shield-halved', title: '平台特权', text: '在常规抽佣基础上，享有大连锁品牌专属政策返点' },
+          { iconClass: 'fa-solid fa-shield-halved', title: '平台特权', text: '在常规抽佣基础上，享有连锁品牌专属政策返点' },
           { iconClass: 'fa-solid fa-arrow-trend-up', title: '资源赋能', text: '直接帮门店从平台拿回属于品牌方的高额补贴利润' }
         ]
       },
@@ -251,10 +168,11 @@
         type: 'traffic-story',
         title: '新店特权：10万曝光快速起量',
         subtitle: '外卖铁律："三天看生死，七天看未来"',
+        note: '* 注：新店流量扶持仅针对门店证件未上过外卖平台的新店。老店线上翻新不包含在内。',
         cards: [
-          { title: '官方流量扶持', text: '你想要有订单，首先要有人看到。新店期（开业第1-15天），平台会定向赠送 10万次 曝光，分10天给到门店。', highlight: false },
-          { title: '新店流量助力', text: '1万次曝光约等于1万元营业额。这10万次曝光相当于前期不花推广费，直接帮你省下1万元，利润率即可提高', highlight: true },
-          { title: '长线运营策略', text: '15天后怎么办？新店期冲刺单量结束后，靠我们独家的运营打法，把新客转化为长期客户，稳住基本盘。', highlight: false }
+          { title: '官方流量支持', text: '你想要有订单，首先要有人看到。新店期（开业第1-15天），平台会定向赠送 10万次 曝光，分10天给到门店，帮你轻松跨过冷启动门槛。', highlight: false },
+          { title: '成熟打新策略', text: '流量进来了怎么接住？依靠总部运营团队丰富的"打新店"策略与经验，通过精细化的活动与菜单设计，将官方送的曝光量高效转化为真实订单。', highlight: true },
+          { title: '长线运营策略', text: '15天流量扶持结束后怎么办？新店期冲刺结束后，我们将通过持续的精细化运营打法，把前期积累的新客转化为高粘性的长期客户，稳住收益基本盘。', highlight: false }
         ]
       },
       // 8. 盈利核心
@@ -269,7 +187,7 @@
         ],
         details: [
           { label: '食材管控', text: '以百元客单为例，食材及核心酱料成本稳定在 35-40 元左右' },
-          { label: '扣点透明', text: '平台综合扣点约 9%，品牌代运营技术服务费 8%' },
+          { label: '扣点透明', text: '平台综合扣点约 9.2%，品牌代运营提成 8%' },
           { label: '利润弹性', text: '加上官方新店流量特权及单量补贴，净利润极具弹性空间' }
         ]
       },
@@ -284,19 +202,37 @@
           { name: '爆单天花板', tag: '乐观冲刺', desc: '每天 100+ 单', profit: '月纯利 8 万+', formula: '100单×100元×30天×40% - 3.6万开支 = 8万左右纯利', detail: '区域头部大店的"冲刺目标"，依托官方10万曝光与极高复购率达成。', highlight: false }
         ]
       },
-      // 10. 图片轮播 (后台数据证明)
+      // 10. 新增：利润极限推演沙盘
+      {
+        type: 'interactive-math',
+        title: '盈利极限推演沙盘',
+        subtitle: '透明化成本拆解 · 您亲自滑动看看利润如何飙升',
+        configs: {
+          foodCostRate: 0.35,      // 食材及物料
+          platformRate: 0.092,     // 平台综合扣点（9.2%）
+          brandRate: 0.08,         // 代运营提成（8%）
+          otherRate: 0.10          // 其他成本（10%）
+        },
+        defaults: {
+          price: 100,
+          orders: 50,
+          rent: 8000,
+          labor: 28000
+        }
+      },
+      // 11. 图片轮播 (后台数据证明)
       {
         type: 'image-gallery',
         title: '真实后台数据证明',
         subtitle: '不听口号看数据：营业额 / 月复购率 / 同行排名展示',
         images: [
-          'https://code.coze.cn/api/sandbox/coze_coding/file/proxy?expire_time=-1&file_path=assets%2FIMG_0203.PNG&nonce=d559fb2b-380e-4970-aa55-4b61a4d314e7&project_id=7628210451956105243&sign=3cc8bb7f5d2e7afc87ea00e94c4449af2d0406bbcd35abafd7d60546ce7ecfd7',
-          'https://code.coze.cn/api/sandbox/coze_coding/file/proxy?expire_time=-1&file_path=assets%2FIMG_0202.PNG&nonce=a44f7872-3ecd-4ac3-be91-8fc8ad56a988&project_id=7628210451956105243&sign=f02c6a8c2bf561984de2b94631ca567212f99fce9aa922c05294f15a43c51dfd',
-          'https://code.coze.cn/api/sandbox/coze_coding/file/proxy?expire_time=-1&file_path=assets%2FIMG_8935.PNG&nonce=dcb2674e-a11c-4b75-9df4-c116c17dd185&project_id=7628210451956105243&sign=7931319b0afd9fb5871fb9e6b70b9ea8804313ed8b59bdfd5c3210f4ae43c136'
+          'https://img.picgo.tv/20250627/IMG_0275.jpg',
+          'https://img.picgo.tv/20250627/IMG_0277.jpg',
+          'https://img.picgo.tv/20250627/IMG_0278.jpg'
         ],
         note: '（提示：您可使用手指或鼠标左右滑动查看全部截图）'
       },
-      // 11. 选址标准
+      // 12. 选址标准
       {
         type: 'focus-cards',
         title: '核心命脉：三大精准选址标准',
@@ -307,7 +243,7 @@
           { iconClass: 'fa-solid fa-shield-halved', title: '严格距离保护', text: '以门店为中心，设立半径 2.5 公里的品牌独家经营保护圈，严控区域门店数量，拒绝内卷。' }
         ]
       },
-      // 12. 合作流程 (打消供应链顾虑)
+      // 13. 合作流程 (打消供应链顾虑)
       {
         type: 'grid-cards',
         title: '一站式全托管：保姆级落地流程',
@@ -321,27 +257,44 @@
           { iconClass: 'fa-solid fa-laptop-code', title: '6. 三网店铺免费搭建', text: '仅需提供老板身份证和银行卡，运营部无任何隐形费用帮你开通账号，完成三大平台店铺精装搭建。' }
         ]
       },
-      // 13. 合作交付
+      // 14. 合作交付 (账单式报价单 - 重构底价居中版)
       {
-        type: 'list-elegant',
-        title: '品牌技术合作交付',
-        subtitle: '¥ 16,800 一次性投入，终身共享成功经验',
-        items: [
-          { iconClass: 'fa-solid fa-copy', title: '品牌授权', text: '授权使用注册商标及全套品牌系统' },
-          { iconClass: 'fa-solid fa-location-dot', title: '精准选址', text: '督导亲自实地选址，确保外卖商圈画像精准' },
-          { iconClass: 'fa-solid fa-utensils', title: '筹建赋能', text: '带教设备采购、办证指引、人员招聘及技术培训' },
-          { iconClass: 'fa-solid fa-globe', title: '三网搭建', text: '美团、饿了么、京东外卖平台全流程托管装修与搭建' },
-          { iconClass: 'fa-solid fa-handshake-angle', title: '经验复制', text: '将跑通的配方、流程、运营方法论 100% 复制' }
-        ]
+        type: 'value-package',
+        title: '翟记龙虾 · 城市合伙人全案交付',
+        subtitle: '总价值 ¥48,000+ 扶持包',
+        price: '¥16,800',
+        limitTag: '（仅限本月前3名锁定商圈的合伙人）',
+        leftPanel: {
+          title: '线下实体筹建与物料 (硬通货)',
+          iconClass: 'fa-solid fa-store',
+          items: [
+            { name: '品牌商标官方授权使用', value: '市价 ¥1W/年' },
+            { name: '核心秘制酱料首批起盘物料包 (实物)', value: '市价 ¥2,500' },
+            { name: '资深督导服务：门店选址指导与评估服务', value: '市价 ¥3,000' },
+            { name: '后厨动线设计，设备采清单，原材料供应和采购指导', value: '市价 ¥5,000' },
+            { name: '门店线下堂食经营指导服务+技术实操培训', value: '核心机密' }
+          ]
+        },
+        rightPanel: {
+          title: '线上三网精装 (流量全托管)',
+          iconClass: 'fa-solid fa-mobile-screen-button',
+          items: [
+            { name: '线上高转化视觉全套包 (招牌/海报/精修图)', value: '市价 ¥3,500' },
+            { name: '线上爆款菜单逻辑搭建 (名称优化/视觉排序)', value: '市价 ¥3,000' },
+            { name: '线上门店新店爆单计划+全盘策划搭建', value: '市价 ¥5,000' },
+            { name: '外卖三大平台建店与认证全包下店', value: '市价 ¥2,000' }
+          ]
+        },
+        bonusText: '🎁 城市首店专属特权：签下当地城市【首家样板店】的合伙人，未来开第二家店时【全额免收】品牌合作费！'
       },
-      // 14. 成本清单
+      // 15. 成本清单
       {
         type: 'table',
         title: '门店开业成本明细',
         subtitle: '低风险启动：总投入可控在约 5 万元左右',
         headers: ['投资项目', '预估金额', '备注说明'],
         rows: [
-          ['品牌技术合作费', '16,800 元', '含品牌授权及建店交付'],
+          ['品牌技术合作费', '16,800 元', '含品牌授权及建店全案交付'],
           ['店面首期租金', '6,000 - 8,000 元', '押一付三（月租2k左右，非临街）'],
           ['营业执照办理', '约 500 元', '代办及工本费等'],
           ['广告门头打印', '约 500 元', '门头喷绘及基础亮化'],
@@ -351,7 +304,7 @@
         ],
         total: '约 5.0 万元 (含前期运转金)'
       },
-      // 15. 设备清单
+      // 16. 设备清单
       {
         type: 'table',
         title: '标准化设备清单 (二手)',
@@ -366,7 +319,7 @@
         ],
         total: '约 8,000 元'
       },
-      // 16. 我们不需要的合伙人 (推拉法则)
+      // 17. 我们不需要的合伙人 (推拉法则)
       {
         type: 'warning-cards',
         title: '我们【不欢迎】这三类合伙人',
@@ -377,12 +330,37 @@
           { iconClass: 'fa-solid fa-coins text-slate-400', title: '借高利贷/借钱创业', text: '创业有风险，心态易崩盘。我们需要你有一定的抗压能力和合理的、不影响生活的资金规划。' }
         ]
       },
-      // 17. 结尾
+      // 18. 战略愿景与逼单 (明亮统一风格)
       {
-        type: 'cta',
-        title: '立即开启爆单之路',
-        subtitle: '实地见证实力 · 数据真实透明',
-        description: '百闻不如一见。我们将带您参观老店，亲自查验后台盈利奇迹。'
+        type: 'vision-roadmap',
+        title: '翟记龙虾 · 品牌历程与战略蓝图',
+        subtitle: '回顾过往步步为营，展望未来携手共赢',
+        milestones: [
+          { 
+            time: '2023-2024年 蓄力爆发', 
+            title: '长沙首家「万单店」诞生', 
+            desc: '品牌起盘并迅速爆发，成功打磨出高盈利、高复购的外卖单店模型，单店日均突破万单，奠定扩张基础。',
+            status: 'past' 
+          },
+          { 
+            time: '2025年 区域深耕', 
+            title: '华东区势能爆发', 
+            desc: '长沙第二家饿了么「万单店」强势爆发，全年数据霸榜，正式成长为华东片区最具影响力的宵夜外卖品牌之一。',
+            status: 'past'
+          },
+          { 
+            time: '2026年 破局裂变 (当前)', 
+            title: '「百城样板」火种计划', 
+            desc: '开放极具性价比的特批合作价格，招募初代城市合伙人，以样板店打透区域市场，共分红利。',
+            status: 'active'
+          },
+          { 
+            time: '2027-2028年 统治与资本', 
+            title: '千店裂变与资本化', 
+            desc: '全面接管供应链护城河，单店门槛上调至 39,800 元起。初代合伙人将享受最高级别的门店估值与先发优势。',
+            status: 'future'
+          }
+        ]
       }
     ];
 
@@ -397,14 +375,14 @@
     const nextBtn = document.getElementById('next-btn');
 
     // ==========================================
-    // 渲染幻灯片内容逻辑 (加入深度响应式断点)
+    // 渲染幻灯片内容逻辑
     // ==========================================
     function renderSlide() {
       const slide = slides[currentSlide];
       let html = '';
 
-      // 渲染通用头部
-      if (slide.type !== 'hero' && slide.type !== 'cta') {
+      // 渲染通用头部 (排除了新加的 value-package，因为它有定制的头部，以及明亮模式的 roadmap)
+      if (slide.type !== 'hero' && slide.type !== 'cta' && slide.type !== 'value-package' && slide.type !== 'vision-roadmap') {
         html += `
           <div class="mb-4 md:mb-6 text-left shrink-0 pl-1 md:pl-2">
             <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 mb-1 md:mb-2">${slide.title}</h1>
@@ -455,14 +433,17 @@
       }
       else if (slide.type === 'traffic-story') {
         contentHtml = `
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 py-2 md:py-4">
-            ${slide.cards.map((card, i) => `
-              <div class="p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border flex flex-col ${card.highlight ? 'bg-red-600 text-white border-red-600 lg:scale-105 z-10 shadow-xl shadow-red-600/30' : 'bg-white border-slate-100'}">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-xl md:text-2xl font-black mb-4 md:mb-6 ${card.highlight ? 'bg-white text-red-600' : 'bg-red-50 text-red-600'}">${i + 1}</div>
-                <h3 class="text-lg md:text-2xl font-bold mb-2 md:mb-4 ${card.highlight ? 'text-white' : 'text-slate-800'}">${card.title}</h3>
-                <p class="text-sm md:text-lg leading-relaxed ${card.highlight ? 'text-red-50 font-medium' : 'text-slate-600'}">${card.text}</p>
-              </div>
-            `).join('')}
+          <div class="w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 py-2 md:py-4">
+              ${slide.cards.map((card, i) => `
+                <div class="p-5 md:p-8 rounded-2xl md:rounded-3xl shadow-sm border flex flex-col ${card.highlight ? 'bg-red-600 text-white border-red-600 lg:scale-105 z-10 shadow-xl shadow-red-600/30' : 'bg-white border-slate-100'}">
+                  <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center text-xl md:text-2xl font-black mb-4 md:mb-6 ${card.highlight ? 'bg-white text-red-600' : 'bg-red-50 text-red-600'}">${i + 1}</div>
+                  <h3 class="text-lg md:text-2xl font-bold mb-2 md:mb-4 ${card.highlight ? 'text-white' : 'text-slate-800'}">${card.title}</h3>
+                  <p class="text-sm md:text-lg leading-relaxed ${card.highlight ? 'text-red-50 font-medium' : 'text-slate-600'}">${card.text}</p>
+                </div>
+              `).join('')}
+            </div>
+            ${slide.note ? `<p class="text-xs md:text-sm text-slate-400 mt-2 md:mt-4 text-center font-medium">${slide.note}</p>` : ''}
           </div>
         `;
       }
@@ -496,6 +477,79 @@
                 </div>
               </div>
             `).join('')}
+          </div>
+        `;
+      }
+      else if (slide.type === 'value-package') {
+        contentHtml = `
+          <div class="flex flex-col h-full w-full max-w-5xl mx-auto py-2 md:py-4 justify-center">
+            <div class="text-center mb-6 md:mb-10 shrink-0">
+              <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-slate-900">${slide.title}</h2>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-6 md:gap-8 flex-1 content-center items-stretch justify-center min-h-0 mb-6 md:mb-8">
+              <!-- 左栏：无形资产 -->
+              <div class="flex-1 bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-5"><i class="${slide.leftPanel.iconClass} text-[120px]"></i></div>
+                <div class="flex items-center gap-3 md:gap-4 mb-6 relative z-10 shrink-0">
+                  <div class="w-12 h-12 md:w-14 md:h-14 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center text-xl md:text-2xl font-black shrink-0">
+                    <i class="${slide.leftPanel.iconClass}"></i>
+                  </div>
+                  <h3 class="text-xl md:text-2xl font-bold text-slate-800">${slide.leftPanel.title}</h3>
+                </div>
+                <div class="flex-1 flex flex-col justify-center space-y-0 relative z-10 overflow-y-auto no-scrollbar">
+                  ${slide.leftPanel.items.map(item => `
+                    <div class="flex justify-between items-center py-3 md:py-4 border-b border-dashed border-slate-100 last:border-0">
+                      <div class="flex items-center gap-2 md:gap-3 pr-2">
+                        <i class="fa-solid fa-circle-check text-green-500 text-sm md:text-base"></i>
+                        <span class="text-sm md:text-base text-slate-700 font-bold">${item.name}</span>
+                      </div>
+                      <span class="text-xs md:text-sm font-bold text-slate-400 whitespace-nowrap bg-slate-50 px-2 py-0.5 rounded">${item.value}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- 右栏：有形资产 -->
+              <div class="flex-1 bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-5"><i class="${slide.rightPanel.iconClass} text-[120px]"></i></div>
+                <div class="flex items-center gap-3 md:gap-4 mb-6 relative z-10 shrink-0">
+                  <div class="w-12 h-12 md:w-14 md:h-14 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center text-xl md:text-2xl font-black shrink-0">
+                    <i class="${slide.rightPanel.iconClass}"></i>
+                  </div>
+                  <h3 class="text-xl md:text-2xl font-bold text-slate-800">${slide.rightPanel.title}</h3>
+                </div>
+                <div class="flex-1 flex flex-col justify-center space-y-0 relative z-10 overflow-y-auto no-scrollbar">
+                  ${slide.rightPanel.items.map(item => `
+                    <div class="flex justify-between items-center py-3 md:py-4 border-b border-dashed border-slate-100 last:border-0">
+                      <div class="flex items-center gap-2 md:gap-3 pr-2">
+                        <i class="fa-solid fa-laptop-code text-red-500 text-sm md:text-base"></i>
+                        <span class="text-sm md:text-base text-slate-700 font-bold">${item.name}</span>
+                      </div>
+                      <span class="text-xs md:text-sm font-bold text-slate-400 whitespace-nowrap bg-slate-50 px-2 py-0.5 rounded">${item.value}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+            
+            <!-- 底部沉浸式报价与特权栏 -->
+            <div class="shrink-0 bg-slate-900 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden">
+              <div class="absolute left-0 bottom-0 opacity-10"><i class="fa-solid fa-handshake text-[150px]"></i></div>
+              <div class="absolute right-0 top-0 opacity-10 transform scale-x-[-1]"><i class="fa-solid fa-handshake text-[150px]"></i></div>
+              
+              <div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-white mb-3">
+                <span class="text-slate-400 line-through decoration-2 text-lg md:text-xl font-bold">${slide.subtitle}</span>
+                <div class="flex items-baseline gap-3">
+                  <span class="text-xl md:text-2xl font-bold">标准合作费</span>
+                  <span class="text-4xl md:text-5xl font-black text-red-500 tracking-tight">${slide.price}</span>
+                </div>
+              </div>
+              <div class="relative z-10 text-slate-400 text-sm md:text-base font-medium mb-4">${slide.limitTag}</div>
+              <div class="relative z-10 inline-block px-5 py-2 md:py-2.5 rounded-full bg-red-600/20 border border-red-500/30 text-red-100 text-sm md:text-base font-bold shadow-inner">
+                ${slide.bonusText}
+              </div>
+            </div>
           </div>
         `;
       }
@@ -594,13 +648,83 @@
           </div>
         `;
       }
+      else if (slide.type === 'interactive-math') {
+        contentHtml = `
+          <div class="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-100 w-full max-w-5xl mx-auto flex flex-col h-full justify-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div class="space-y-6 md:space-y-8">
+                <div>
+                  <div class="flex justify-between mb-2 md:mb-3">
+                    <span class="font-bold text-slate-700 text-lg md:text-xl">客单价 (元)</span>
+                    <span id="val-price" class="text-red-600 font-black text-xl md:text-2xl">¥${slide.defaults.price}</span>
+                  </div>
+                  <input type="range" id="input-price" min="50" max="200" step="1" value="${slide.defaults.price}" class="w-full h-2 md:h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600 outline-none">
+                </div>
+                <div>
+                  <div class="flex justify-between mb-2 md:mb-3">
+                    <span class="font-bold text-slate-700 text-lg md:text-xl">日均单量 (单)</span>
+                    <span id="val-orders" class="text-red-600 font-black text-xl md:text-2xl">${slide.defaults.orders}单</span>
+                  </div>
+                  <input type="range" id="input-orders" min="10" max="500" step="1" value="${slide.defaults.orders}" class="w-full h-2 md:h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <div class="flex justify-between mb-2">
+                      <span class="font-bold text-slate-700 text-sm md:text-base">月房租水电</span>
+                      <span id="val-rent" class="text-slate-900 font-black text-sm md:text-base">¥${slide.defaults.rent}</span>
+                    </div>
+                    <input type="range" id="input-rent" min="2000" max="30000" step="500" value="${slide.defaults.rent}" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600 outline-none">
+                  </div>
+                  <div>
+                    <div class="flex justify-between mb-2">
+                      <span class="font-bold text-slate-700 text-sm md:text-base">月人工工资</span>
+                      <span id="val-labor" class="text-slate-900 font-black text-sm md:text-base">¥${slide.defaults.labor}</span>
+                    </div>
+                    <input type="range" id="input-labor" min="5000" max="60000" step="1000" value="${slide.defaults.labor}" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-red-600 outline-none">
+                  </div>
+                </div>
+                <div class="p-4 md:p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                  <h4 class="text-sm font-bold text-slate-400 mb-3 uppercase tracking-wider">经营扣点底线 (不可更改)</h4>
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm md:text-base font-medium">
+                    <div class="flex items-center gap-2 text-slate-600"><i class="fa-solid fa-circle-check text-green-500"></i> 食材物料 ${slide.configs.foodCostRate * 100}%</div>
+                    <div class="flex items-center gap-2 text-slate-600"><i class="fa-solid fa-circle-check text-green-500"></i> 平台扣点 ${(slide.configs.platformRate * 100).toFixed(1)}%</div>
+                    <div class="flex items-center gap-2 text-slate-600"><i class="fa-solid fa-circle-check text-green-500"></i> 运营提成 ${slide.configs.brandRate * 100}%</div>
+                    <div class="flex items-center gap-2 text-slate-600"><i class="fa-solid fa-circle-check text-green-500"></i> 其他成本 ${slide.configs.otherRate * 100}%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-center gap-6 md:gap-8">
+                <div class="p-8 md:p-10 bg-gradient-to-br from-red-600 to-red-700 rounded-3xl text-white shadow-2xl shadow-red-600/30 text-center relative overflow-hidden transition-all duration-300" id="profit-card">
+                  <div class="absolute -right-6 -top-6 opacity-10"><i class="fa-solid fa-sack-dollar text-[160px]"></i></div>
+                  <p class="text-red-100 font-bold mb-2 text-lg md:text-xl">预计月度净利润</p>
+                  <div id="res-profit" class="text-6xl md:text-7xl font-black font-mono tracking-tight transition-all duration-300">¥ 0</div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 md:gap-6">
+                  <div class="p-6 bg-slate-900 rounded-2xl text-center shadow-lg">
+                    <p class="text-slate-400 text-sm md:text-base font-bold mb-2">单笔纯利</p>
+                    <div id="res-single" class="text-white text-3xl md:text-4xl font-black font-mono">¥ 0</div>
+                  </div>
+                  <div class="p-6 bg-white border-2 border-slate-200 rounded-2xl text-center shadow-sm">
+                    <p class="text-slate-500 text-sm md:text-base font-bold mb-2">每日保本线</p>
+                    <div id="res-be" class="text-red-600 text-3xl md:text-4xl font-black font-mono">0单</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // 渲染完成后，延迟绑定交互事件
+        setTimeout(() => initInteractiveMath(slide), 0);
+      }
       else if (slide.type === 'image-gallery') {
         contentHtml = `
           <div class="flex flex-col items-center justify-center h-full w-full py-4">
             <div class="flex gap-4 md:gap-6 overflow-x-auto w-full pb-4 snap-x snap-mandatory no-scrollbar justify-start md:justify-center">
               ${slide.images.map(img => `
                 <div class="shrink-0 w-72 md:w-80 h-96 md:h-[450px] bg-slate-200 rounded-2xl overflow-hidden shadow-lg border border-slate-200 snap-center relative group">
-                  <img src="${img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="真实后台数据" onerror="this.src='https://via.placeholder.com/400x600/f8fafc/94a3b8?text=请上传图片到/public/img/目录'" />
+                  <img src="${img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="真实后台数据" onerror="this.src='https://via.placeholder.com/400x600?text=图片加载失败'" />
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                      <span class="text-white font-bold tracking-wide"><i class="fa-solid fa-image mr-2"></i>后台实时截图</span>
                   </div>
@@ -664,6 +788,42 @@
           </div>
         `;
       }
+      else if (slide.type === 'vision-roadmap') {
+        contentHtml = `
+          <div class="w-full h-full flex flex-col items-center justify-center py-2 md:py-4">
+            <div class="text-center mb-8 md:mb-10 shrink-0">
+              <div class="inline-block px-4 py-1.5 mb-3 md:mb-4 rounded-full bg-red-50 border border-red-100 text-red-600 font-bold text-xs md:text-sm tracking-widest uppercase">Milestones & Future</div>
+              <h2 class="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-3">${slide.title}</h2>
+              <p class="text-slate-500 text-base md:text-lg font-medium">${slide.subtitle}</p>
+            </div>
+
+            <div class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+              ${slide.milestones.map((m, i) => `
+                <div class="relative p-5 md:p-6 rounded-2xl md:rounded-3xl border flex flex-col h-full transition-all duration-300 ${
+                  m.status === 'active' ? 'bg-red-50 border-red-300 shadow-lg shadow-red-600/10 lg:scale-105 z-10' : 
+                  m.status === 'past' ? 'bg-white border-slate-200 shadow-sm' : 
+                  'bg-white border-slate-200 border-dashed shadow-sm opacity-80'
+                }">
+                  ${m.status === 'active' ? '<div class="absolute -top-2 -right-2 flex h-4 w-4 md:h-5 md:w-5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-4 w-4 md:h-5 md:w-5 bg-red-500"></span></div>' : ''}
+                  
+                  <div class="flex items-center gap-2 mb-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm ${
+                      m.status === 'active' ? 'bg-red-600 text-white' : 
+                      m.status === 'past' ? 'bg-slate-100 text-slate-500' : 'bg-slate-50 text-slate-400'
+                    }">
+                      ${m.status === 'past' ? '<i class="fa-solid fa-check"></i>' : m.status === 'active' ? '<i class="fa-solid fa-fire"></i>' : '<i class="fa-solid fa-arrow-trend-up"></i>'}
+                    </div>
+                    <div class="text-xs md:text-sm font-bold ${m.status === 'active' ? 'text-red-600' : 'text-slate-500'}">${m.time}</div>
+                  </div>
+                  
+                  <h3 class="text-lg md:text-xl font-bold mb-2 md:mb-3 ${m.status === 'active' ? 'text-slate-900' : 'text-slate-700'}">${m.title}</h3>
+                  <p class="text-sm md:text-base leading-relaxed flex-1 ${m.status === 'active' ? 'text-slate-700' : 'text-slate-500'}">${m.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
       else if (slide.type === 'cta') {
         contentHtml = `
           <div class="my-auto flex flex-col items-center justify-center text-center py-8 md:py-12">
@@ -683,7 +843,7 @@
       }
 
       // 给容器增加一点上下内边距防止贴边，特别是在手机上
-      html += `<div class="flex-1 overflow-y-auto no-scrollbar pb-6 md:pb-10 pt-2 flex flex-col w-full">${contentHtml}</div>`;
+      html += `<div class="flex-1 overflow-y-auto no-scrollbar pb-6 md:pb-10 pt-2 flex flex-col w-full h-full">${contentHtml}</div>`;
       container.innerHTML = html;
 
       // 更新进度条
@@ -750,7 +910,69 @@
       changeSlide(index);
     }
 
-    // 注意：renderSlide() 会在密码验证通过后自动调用
+    // 初始化计算沙盘的逻辑
+    function initInteractiveMath(slide) {
+      const pInput = document.getElementById('input-price');
+      const oInput = document.getElementById('input-orders');
+      const rInput = document.getElementById('input-rent');
+      const lInput = document.getElementById('input-labor');
+      
+      if(!pInput || !oInput || !rInput || !lInput) return;
+      
+      const update = () => {
+        const price = parseInt(pInput.value);
+        const orders = parseInt(oInput.value);
+        const rent = parseInt(rInput.value);
+        const labor = parseInt(lInput.value);
+        
+        const fixedCost = rent + labor;
+        
+        // 更新滑块上的显示数值
+        document.getElementById('val-price').innerText = `¥${price}`;
+        document.getElementById('val-orders').innerText = `${orders}单`;
+        document.getElementById('val-rent').innerText = `¥${rent}`;
+        document.getElementById('val-labor').innerText = `¥${labor}`;
+        
+        // 核心利润逻辑计算
+        // 纯利比例 = 1 - 食材 - 平台 - 代运营 - 其他
+        const singleProfit = price * (1 - slide.configs.foodCostRate - slide.configs.platformRate - slide.configs.brandRate - slide.configs.otherRate);
+        const monthlyProfit = (singleProfit * orders * 30) - fixedCost;
+        // 每日保本线 = 月固定成本 / (单笔纯利 * 30)
+        const breakEven = Math.ceil(fixedCost / (singleProfit * 30));
+        
+        // 更新结果面板
+        document.getElementById('res-single').innerText = `¥${singleProfit.toFixed(1)}`;
+        
+        const profitCard = document.getElementById('profit-card');
+        const profitEl = document.getElementById('res-profit');
+        
+        if (monthlyProfit < 0) {
+            profitEl.innerText = `-¥${Math.abs(monthlyProfit).toLocaleString()}`;
+            profitCard.classList.remove('from-red-600', 'to-red-700', 'shadow-red-600/30');
+            profitCard.classList.add('from-slate-600', 'to-slate-700', 'shadow-slate-600/30');
+        } else {
+            profitEl.innerText = `¥${monthlyProfit.toLocaleString()}`;
+            profitCard.classList.remove('from-slate-600', 'to-slate-700', 'shadow-slate-600/30');
+            profitCard.classList.add('from-red-600', 'to-red-700', 'shadow-red-600/30');
+        }
+        
+        // 当单笔利润小于等于0时，保本单量为无限大
+        if (singleProfit <= 0) {
+           document.getElementById('res-be').innerText = `无法保本`;
+        } else {
+           document.getElementById('res-be').innerText = `${breakEven}单`;
+        }
+      };
+
+      pInput.addEventListener('input', update);
+      oInput.addEventListener('input', update);
+      rInput.addEventListener('input', update);
+      lInput.addEventListener('input', update);
+      update(); // 初始执行一次刷新页面显示
+    }
+
+    // 初始化渲染
+    renderSlide();
 
   </script>
 </body>

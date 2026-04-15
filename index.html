@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>翟记龙虾招商演示</title>
   
   <!-- 引入 Tailwind CSS (仅处理样式) -->
@@ -52,6 +55,35 @@
 </head>
 <body class="text-slate-800 font-sans selection:bg-red-100 selection:text-red-900">
   
+  <!-- 密码验证遮罩层 -->
+  <div id="password-overlay" class="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 max-w-md w-full mx-4 text-center transform transition-all">
+      <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fa-solid fa-lock text-red-600 text-3xl"></i>
+      </div>
+      <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">翟记龙虾</h2>
+      <p class="text-slate-500 mb-6">请输入访问密码查看招商演示</p>
+      <div class="relative mb-6">
+        <input 
+          type="password" 
+          id="password-input" 
+          class="w-full px-5 py-4 border-2 border-slate-200 rounded-2xl text-lg focus:outline-none focus:border-red-500 transition-colors text-center"
+          placeholder="请输入密码"
+          onkeypress="if(event.key==='Enter')verifyPassword()"
+        >
+      </div>
+      <button 
+        onclick="verifyPassword()" 
+        class="w-full py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-lg rounded-2xl transition-all shadow-lg shadow-red-600/30 active:scale-95"
+      >
+        <i class="fa-solid fa-arrow-right mr-2"></i>进入演示
+      </button>
+      <p id="error-msg" class="text-red-500 text-sm mt-4 hidden font-medium">
+        <i class="fa-solid fa-circle-exclamation mr-1"></i>密码错误，请重新输入
+      </p>
+    </div>
+  </div>
+
   <div class="flex flex-col h-screen w-full overflow-hidden relative">
     
     <!-- 顶部进度条 -->
@@ -226,9 +258,9 @@
         title: '真实后台数据证明',
         subtitle: '不听口号看数据：营业额 / 月复购率 / 同行排名展示',
         images: [
-          'https://img.picgo.tv/20250627/IMG_0275.jpg',
-          'https://img.picgo.tv/20250627/IMG_0277.jpg',
-          'https://img.picgo.tv/20250627/IMG_0278.jpg'
+          'https://coze-coding-project.tos.coze.site/coze_storage_7628212580464623643/image/generate_image_1f69aa0a-dbb8-43ab-9ebf-d0cbfdcbe371.jpeg?sign=1807757444-4957b2c905-0-39086a73ad55e45f908daacf424b485bea2b8a75d1604b48d8823e8d5879e90d',
+          'https://coze-coding-project.tos.coze.site/coze_storage_7628212580464623643/image/generate_image_200e4fd9-675a-4eb2-8c9c-b2e30895ae23.jpeg?sign=1807757458-aa8ef71eee-0-9de392bfdc594c0bda59a58f442261c317b40dbb09b5c4e23d35a2f8dff75952',
+          'https://coze-coding-project.tos.coze.site/coze_storage_7628212580464623643/image/generate_image_d6bbf5ed-801e-4833-921b-3a921f735bd1.jpeg?sign=1807757440-85e7122a2f-0-41f48344f6eadff8f8c444243a2b65d8c10cdfc9980730d4ec7c7334a4ccfd8e'
         ],
         note: '（提示：您可使用手指或鼠标左右滑动查看全部截图）'
       },
@@ -970,6 +1002,56 @@
       lInput.addEventListener('input', update);
       update(); // 初始执行一次刷新页面显示
     }
+
+    // 密码验证功能
+    const CORRECT_PASSWORD = '123456'; // 可自行修改密码
+    const overlay = document.getElementById('password-overlay');
+    const passwordInput = document.getElementById('password-input');
+    const errorMsg = document.getElementById('error-msg');
+
+    function checkVerification() {
+      const verified = sessionStorage.getItem('password_verified');
+      if (verified === 'true') {
+        overlay.style.display = 'none';
+      }
+    }
+
+    function verifyPassword() {
+      const password = passwordInput.value;
+      if (password === CORRECT_PASSWORD) {
+        sessionStorage.setItem('password_verified', 'true');
+        overlay.style.display = 'none';
+        errorMsg.classList.add('hidden');
+      } else {
+        errorMsg.classList.remove('hidden');
+        passwordInput.classList.add('animate-shake');
+        setTimeout(() => {
+          passwordInput.classList.remove('animate-shake');
+        }, 300);
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    }
+
+    // 添加抖动动画样式
+    document.head.insertAdjacentHTML('beforeend', `
+      <style>
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-10px); }
+          75% { transform: translateX(10px); }
+        }
+        .animate-shake {
+          animation: shake 0.3s ease-in-out;
+        }
+      </style>
+    `);
+
+    // 页面加载时检查是否已验证
+    window.addEventListener('DOMContentLoaded', function() {
+      checkVerification();
+      passwordInput.focus();
+    });
 
     // 初始化渲染
     renderSlide();
